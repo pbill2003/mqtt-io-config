@@ -1,0 +1,70 @@
+mqtt:
+  host: hassbian.localdomain
+  port: 1883
+  ha_discovery: 
+    enabled: yes
+
+logging:
+  version: 1
+  formatters:
+    simple:
+      format: "%(asctime)s %(name)s (%(levelname)s): %(message)s"
+  handlers:
+    console:
+      class: logging.StreamHandler
+      level: DEBUG
+      formatter: simple
+      stream: ext://sys.stdout
+  loggers:
+    mqtt_io:
+      level: WARN
+      handlers: [console]
+      propagate: yes
+
+
+sensor_modules:
+  - name: ds18b22_sensor1
+    module: ds18b
+    type: DS18B20
+    address: 3c01d6071278
+
+  - name: ds18b22_sensor2
+    module: ds18b
+    type: DS18B20
+    address: 0300a27965e9
+
+  - name: ds18b22_sensor3
+    module: ds18b
+    type: DS18B20
+    address: 3c01d6075020
+
+sensor_inputs:
+  - name: CH_Feed_temperature
+    module: ds18b22_sensor1
+    interval: 11
+    digits: 2
+    ha_discovery:
+      name: CH Feed temperature
+      component: sensor
+      device_class: temperature
+      unit_of_measurement: °C
+
+  - name: CH_Return_temperature
+    module: ds18b22_sensor2
+    interval: 9
+    digits: 2
+    ha_discovery:
+      name: CH Return temperature
+      component: sensor
+      device_class: temperature
+      unit_of_measurement: °C
+
+  - name: DHW_Bathroom_temperature
+    module: ds18b22_sensor3
+    interval: 5
+    digits: 2
+    ha_discovery:
+      name: DHW Bathroom temperature
+      component: sensor
+      device_class: temperature
+      unit_of_measurement: °C

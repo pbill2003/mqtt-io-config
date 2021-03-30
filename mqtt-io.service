@@ -1,0 +1,15 @@
+[Unit]
+Description=Python GPIO MQTT bridge
+After=network-online.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/home/pi/mqtt-io
+ExecStart=/usr/bin/python3 -m mqtt_io /home/pi/mqtt-io/config.yaml
+Restart=on-failure
+RestartSec=30s
+
+[Install]
+WantedBy=multi-user.target
+
